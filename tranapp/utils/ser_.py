@@ -58,6 +58,12 @@ class LoginSer(serializers.ModelSerializer):
         return attrs
 
 
+class CampusSer(serializers.ModelSerializer):
+    class Meta:
+        model= models.Campus
+        fields = "__all__"
+
+
 ############################  图书相关 #######################################
 
 class BookSer(serializers.ModelSerializer):
@@ -76,9 +82,9 @@ class TypeSer(serializers.ModelSerializer):
 ############################  订单相关 #######################################
 
 class OrderSer(serializers.ModelSerializer):
-    user = serializers.CharField(source="user.nickname",read_only=True)
-    book = serializers.CharField(source="book.name",read_only=True)
-    seller = serializers.CharField(source="seller.name",read_only=True)
+    user = serializers.CharField(source="user.nickname", read_only=True)
+    book = serializers.CharField(source="book.name", read_only=True)
+    seller = serializers.CharField(source="seller.name", read_only=True)
     status = serializers.CharField(source="get_status_display", read_only=True)
 
     class Meta:

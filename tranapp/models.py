@@ -82,9 +82,7 @@ class Address(models.Model):
     userinfo = models.ForeignKey(verbose_name="用户", to="UserInfo", on_delete=models.CASCADE, default=1)
     receiver_name = models.CharField(verbose_name="收件人姓名", max_length=100)
     phone_number = models.CharField(verbose_name="联系电话", max_length=20)
-    state_province = models.CharField(verbose_name="省/州", max_length=100, null=True)
-    city = models.CharField(verbose_name="城市", max_length=100)
-    street_address = models.CharField(verbose_name="街道地址", max_length=255)
+    campus = models.ForeignKey(verbose_name="校区", to="Campus", on_delete=models.CASCADE,default=1)
     is_default = models.BooleanField(verbose_name="是否默认地址", default=False)
     detail = models.TextField(verbose_name="配送说明", blank=True, null=True)
 

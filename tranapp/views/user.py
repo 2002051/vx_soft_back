@@ -2,7 +2,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from tranapp.utils.res_ import MyResponse
-from tranapp.utils.ser_ import RegisterSer, LoginSer
+from tranapp.utils.ser_ import RegisterSer, LoginSer,CampusSer
 from tranapp import models
 
 
@@ -26,3 +26,10 @@ class LoginView(MyResponse, APIView):
         instance = models.UserInfo.objects.filter(**ser.data).first()
         ser2 = LoginSer(instance=instance)
         return Response({"user": ser2.data, "token": token})
+
+
+class CampusView(MyResponse,APIView):
+    def get(self,request):
+        queryset = models.Campus.objects.all()
+        ser = CampusSer(instance=queryset,many=True)
+        return Response(ser.data)

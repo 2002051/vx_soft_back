@@ -5,6 +5,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
+
+from tranapp.utils.filt_ import BookByTypeFilter
 from tranapp.utils.res_ import MyResponse
 from tranapp.utils.ser_ import BookSer, TypeSer
 from tranapp import models
@@ -23,7 +25,7 @@ class BookView(MyResponse, ModelViewSet):
     serializer_class = BookSer
     queryset = models.Book.objects.all()
     pagination_class = LimitOffsetPagination
-    filter_backends = []  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
+    filter_backends = [BookByTypeFilter]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
 
 
 class BookTView(MyResponse, APIView):
