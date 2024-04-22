@@ -17,12 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-
+from tranapp.views import user, books,order
 from soft import settings
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-
+    path("api/register/", user.RegisterView.as_view()),
+    path("api/login/", user.LoginView.as_view()),
+    path("api/type/", books.TypeView.as_view()),
+    path("api/book/", books.BookView.as_view({"get": "list", "post": "create"})),
+    path("api/book/<int:pk>/", books.BookView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    path("api/order/",order.OrderView.as_view()),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

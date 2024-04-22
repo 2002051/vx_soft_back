@@ -1,4 +1,5 @@
 from django.db import models
+import random
 
 
 # Create your models here.
@@ -6,6 +7,7 @@ from django.db import models
 class UserInfo(models.Model):
     """用户"""
     avatar = models.CharField(verbose_name="头像", max_length=128, default="/media/avatar/default.png")
+    nickname = models.CharField(verbose_name="昵称", max_length=128, default=f"用户{random.randint(100000, 999999)}")
     username = models.CharField(verbose_name="用户名", max_length=128)
     password = models.CharField(verbose_name="密码", max_length=255)
     campus = models.ForeignKey(verbose_name="所属校区", to="Campus", on_delete=models.CASCADE)
@@ -42,6 +44,7 @@ class Book(models.Model):
     """二手书"""
     type = models.ForeignKey(verbose_name="类别", to="Type", on_delete=models.CASCADE)
     name = models.CharField(verbose_name="书名", max_length=128)
+    price = models.IntegerField(verbose_name="价格", default=1)
     author = models.CharField(verbose_name="作者", max_length=128)
     image = models.CharField(verbose_name="图片", max_length=128, default="/media/book_img/default.png")
     detail = models.CharField(verbose_name="详情", max_length=255)
@@ -76,9 +79,10 @@ class Order(models.Model):
 
 class Address(models.Model):
     """地址表"""
+    userinfo = models.ForeignKey(verbose_name="用户", to="UserInfo", on_delete=models.CASCADE, default=1)
     receiver_name = models.CharField(verbose_name="收件人姓名", max_length=100)
     phone_number = models.CharField(verbose_name="联系电话", max_length=20)
-    state_province = models.CharField(verbose_name="省/州", max_length=100)
+    state_province = models.CharField(verbose_name="省/州", max_length=100, null=True)
     city = models.CharField(verbose_name="城市", max_length=100)
     street_address = models.CharField(verbose_name="街道地址", max_length=255)
     is_default = models.BooleanField(verbose_name="是否默认地址", default=False)
