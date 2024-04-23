@@ -132,3 +132,12 @@ class SessionSer(serializers.ModelSerializer):
     class Meta:
         model = models.Session
         fields = "__all__"
+
+
+
+################################  购物车相关  #####################################
+class CartSer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Cart
+        fields = "__all__"
+        depth = 1

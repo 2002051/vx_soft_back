@@ -10,7 +10,7 @@ from tranapp.utils.filt_ import BookByTypeFilter
 from tranapp.utils.res_ import MyResponse
 from tranapp.utils.ser_ import AddressSer
 from tranapp.utils.auth_ import LoginAuth
-from tranapp.utils.filt_ import AddressBuUserFilter
+from tranapp.utils.filt_ import AddressByUserFilter
 from tranapp import models
 
 
@@ -20,7 +20,7 @@ class AddressView(MyResponse, ModelViewSet):
     queryset = models.Address.objects.all()
     pagination_class = LimitOffsetPagination
     serializer_class = AddressSer
-    filter_backends = [AddressBuUserFilter]
+    filter_backends = [AddressByUserFilter]
     def perform_create(self, serializer):
         userinfo = self.request.user
         serializer.save(userinfo=userinfo)

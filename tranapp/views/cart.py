@@ -6,15 +6,18 @@ from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from tranapp.utils.auth_ import LoginAuth
-from tranapp.utils.filt_ import BookByTypeFilter
+from tranapp.utils.filt_ import CartByUserFilter
 from tranapp.utils.res_ import MyResponse
-from tranapp.utils.ser_ import BookSer, TypeSer
+from tranapp.utils.ser_ import CartSer
 from tranapp import models
 
 
 class CartView(MyResponse, ModelViewSet):
     """购物车条目"""
-    authentication_classes = LoginAuth
+    authentication_classes = [LoginAuth]
+    serializer_class = CartSer
+    queryset = models.Cart.objects.all()
+    filter_backends = [CartByUserFilter]
 
 
 

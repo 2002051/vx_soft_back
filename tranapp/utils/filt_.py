@@ -20,10 +20,18 @@ class OrderByUserFilter(BaseFilterBackend):
         return queryset.filter(user_id=userinfo.id)
 
 
-class AddressBuUserFilter(BaseFilterBackend):
+class AddressByUserFilter(BaseFilterBackend):
     """地址按照用户过滤"""
 
     # 这里过滤其实可以和上面订单一样的，但是设计数据库的时候两个表指向用户的外键字段名不一样，因此另写一个
     def filter_queryset(self, request, queryset, view):
         userinfo = request.user
         return queryset.filter(userinfo_id=userinfo.id)
+
+
+class CartByUserFilter(BaseFilterBackend):
+    """购物车条目根据用户信息过滤"""
+
+    def filter_queryset(self, request, queryset, view):
+        userinfo = request.user
+        return queryset.filter(user_id=userinfo.id)
