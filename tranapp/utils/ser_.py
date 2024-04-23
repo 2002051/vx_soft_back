@@ -32,6 +32,7 @@ class RegisterSer(serializers.ModelSerializer):
 
 class EditUserSer(serializers.ModelSerializer):
     """编辑信息序列化器"""
+    username = serializers.CharField(allow_blank=True, required=False)
     password = serializers.CharField(allow_blank=True, required=False)
     class Meta:
         model = models.UserInfo

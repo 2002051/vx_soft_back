@@ -17,12 +17,18 @@ class LoginAuth(BaseAuthentication):
             token = request.headers.get("token")
             # 解开token 从获取用户名密码，然后校验
             userinfo = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
+            print("登录用户信息:",userinfo)
             username = userinfo.get("username")
             password = userinfo.get("password")
             md5_password = md5_.setPassword(password)
             userobj = models.UserInfo.objects.filter(username=username, password=md5_password).first()
+
             if userobj:
+                print("userobj", userobj)
+
                 return userobj, token  # request.user  request.auth
+            raise AuthenticationFailed("请先登录")
+
         except:
           raise AuthenticationFailed("请先登录")
     def authenticate_header(self, request):
@@ -42,6 +48,7 @@ class LoginAuth2(BaseAuthentication):
             return
         if request.method in self.user_methods:
             # 请求方法与self.user_methods一致的话则不需要执行对应的认证内容。
+
             return
         try:
             token = request.headers.get("token")
@@ -50,9 +57,13 @@ class LoginAuth2(BaseAuthentication):
             username = userinfo.get("username")
             password = userinfo.get("password")
             md5_password = md5_.setPassword(password)
+            print(md5_password,username)
             userobj = models.UserInfo.objects.filter(username=username, password=md5_password).first()
+
             if userobj:
                 return userobj, token  # request.user  request.auth
+            raise AuthenticationFailed("请先登录")
+
         except:
           raise AuthenticationFailed("请先登录")
     def authenticate_header(self, request):

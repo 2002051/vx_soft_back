@@ -12,6 +12,13 @@ class BookByTypeFilter(BaseFilterBackend):
         return queryset.filter(type_id=type_id)
 
 
+class BookByCampus(BaseFilterBackend):
+    """按照校区过滤"""
+    def filter_queryset(self, request, queryset, view):
+        userinfo = request.user
+        return queryset
+
+
 class OrderByUserFilter(BaseFilterBackend):
     """ 订单按照用户过滤 """
 

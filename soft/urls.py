@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from tranapp.views import user, books, order, address, upload, wbchat, cart
+from tranapp.views import user, books, order, address, upload, wbchat, cart,search
 from soft import settings
 
 # from tranapp.views.wbchat import MessageView
@@ -49,6 +49,10 @@ urlpatterns = [
 
     path("api/cart/", cart.CartView.as_view({"get": "list", "post": "create"})),
     path("api/cart/<int:pk>/", cart.CartView.as_view({"get": "retrieve","delete": "destroy"})),
+
+
+    # 搜索相关
+    path("api/book/search/",search.BookSearchVie.as_view()),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

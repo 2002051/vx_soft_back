@@ -81,20 +81,8 @@ class MessageView(MyResponse, APIView):
         session_id = int(request.query_params.get("session_id"))
         # 一个聊天会话的记录，要满足会话id对应，同时当前登录用户是其中的发送者，防止其它用户可以看到
         queryset = models.Message.objects.filter(sessionID_id=session_id).filter(
-            Q(senderID_id=user.id) | Q(recipientID_id=user.id))
+            Q(senderID_id=user.id) | Q(recipientID_id=user.id)).order_by("create_time")
         page = LimitOffsetPagination()
         ser = MessageSer(instance=queryset, many=True)
-        ser2 = MessageSer(page.paginate_queryset(queryset, self.request, view=None),many=True)
+        ser2 = MessageSer(page.paginate_queryset(queryset, self.request, view=None), many=True)
         return page.get_paginated_response(ser2.data)
-
-        # return Response(ser.data)
-
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     page = self.paginate_queryset(queryset)
-    #     if page is not None:
-    #         serializer = self.get_serializer(page, many=True)
-    #         return self.get_paginated_response(serializer.data)
-    #
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     return Response(serializer.data)
