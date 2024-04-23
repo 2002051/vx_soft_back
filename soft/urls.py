@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from tranapp.views import user, books, order,address
+from tranapp.views import user, books, order, address
 from soft import settings
 
 urlpatterns = [
@@ -25,16 +25,17 @@ urlpatterns = [
     path("api/register/", user.RegisterView.as_view()),
     path("api/login/", user.LoginView.as_view()),
     path("api/campus/", user.CampusView.as_view()),
-    path("api/type/", books.TypeView.as_view()),
 
+    path("api/type/", books.TypeView.as_view()),
     path("api/book/", books.BookView.as_view({"get": "list", "post": "create"})),
     path("api/book/<int:pk>/", books.BookView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
 
     path("api/order/", order.OrderView.as_view({"get": "list", "post": 'create'})),
-    path("api/order/<int:pk>/", order.OrderView.as_view({"get": "list"})),
+    path("api/order/<int:pk>/", order.OrderView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
 
-    path("api/address/", address.AddressView.as_view()),
-    # path("api/addr/<int:pk>/", order.OrderView.as_view({"get": "list"})),
+    path("api/address/", address.AddressView.as_view({"get": "list", "post": 'create'})),
+    path("api/address/<int:pk>/",
+         address.AddressView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

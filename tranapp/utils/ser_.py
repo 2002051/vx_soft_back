@@ -33,12 +33,13 @@ class RegisterSer(serializers.ModelSerializer):
 class LoginSer(serializers.ModelSerializer):
     avatar = serializers.CharField(read_only=True)
     nickname = serializers.CharField(read_only=True)
-    campus = serializers.CharField(source="campus.name", read_only=True)
+    # campus = serializers.CharField(source="campus.name", read_only=True)
     password = serializers.CharField(write_only=True)
 
     class Meta:
         model = models.UserInfo
         fields = ["username", "password", "avatar", "nickname", "campus"]
+        depth = 1
 
     def validate(self, attrs):
         username = attrs.get("username")
@@ -60,13 +61,15 @@ class LoginSer(serializers.ModelSerializer):
 
 class CampusSer(serializers.ModelSerializer):
     class Meta:
-        model= models.Campus
+        model = models.Campus
         fields = "__all__"
 
 
 ############################  图书相关 #######################################
 
 class BookSer(serializers.ModelSerializer):
+    """书籍序列化器"""
+
     class Meta:
         model = models.Book
         fields = "__all__"
@@ -82,11 +85,34 @@ class TypeSer(serializers.ModelSerializer):
 ############################  订单相关 #######################################
 
 class OrderSer(serializers.ModelSerializer):
-    user = serializers.CharField(source="user.nickname", read_only=True)
-    book = serializers.CharField(source="book.name", read_only=True)
-    seller = serializers.CharField(source="seller.name", read_only=True)
-    status = serializers.CharField(source="get_status_display", read_only=True)
+    """订单序列化器"""
+    # status = serializers.CharField( read_only=True)
+    # status_text = serializers.CharField(source="get_status_display", read_only=True)
+    status = serializers.SerializerMethodField(read_only=True)
+    address_id = serializers.IntegerField(write_only=True)
+    seller_id = serializers.IntegerField(write_only=True)
+    book_id = serializers.IntegerField(write_only=True)
+    quantity = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = models.Order
         fields = "__all__"
+        depth = 2
+
+    def get_status(self, obj):
+        return {
+            obj.status,
+            obj.get_status_display(),
+        }
+
+
+class AddressSer(serializers.ModelSerializer):
+    """地址序列化器"""
+
+    campus_id = serializers.IntegerField(write_only=True)
+    is_default = serializers.BooleanField(write_only=True)
+
+    class Meta:
+        model = models.Address
+        fields = "__all__"
+        depth = 1  # 一级深度查询外键，如果懒得定制字段可以这样，但会略微影响效率
