@@ -69,7 +69,7 @@ class CampusSer(serializers.ModelSerializer):
 
 class BookSer(serializers.ModelSerializer):
     """书籍序列化器"""
-
+    type_id = serializers.IntegerField(write_only=True)
     class Meta:
         model = models.Book
         fields = "__all__"

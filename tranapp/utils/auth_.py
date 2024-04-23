@@ -27,3 +27,33 @@ class LoginAuth(BaseAuthentication):
           raise AuthenticationFailed("请先登录")
     def authenticate_header(self, request):
         return "API"
+
+
+
+class LoginAuth2(BaseAuthentication):
+    """登录状态认证（可根据请求判断是否执行）"""
+    def __init__(self, user_methods):
+        self.user_methods = user_methods
+
+
+    def authenticate(self, request):
+        if request.method == "OPTIONS":
+            # 预检不进行权限校验。
+            return
+        if request.method in self.user_methods:
+            # 请求方法与self.user_methods一致的话则不需要执行对应的认证内容。
+            return
+        try:
+            token = request.headers.get("token")
+            # 解开token 从获取用户名密码，然后校验
+            userinfo = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
+            username = userinfo.get("username")
+            password = userinfo.get("password")
+            md5_password = md5_.setPassword(password)
+            userobj = models.UserInfo.objects.filter(username=username, password=md5_password).first()
+            if userobj:
+                return userobj, token  # request.user  request.auth
+        except:
+          raise AuthenticationFailed("请先登录")
+    def authenticate_header(self, request):
+        return "API"
