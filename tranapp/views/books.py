@@ -5,8 +5,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
-from tranapp.utils.auth_ import LoginAuth2
-from tranapp.utils.filt_ import BookByTypeFilter
+from tranapp.utils.auth_ import LoginAuth2,LoginAuth
+from tranapp.utils.filt_ import BookByTypeFilter, BookByCampus
 from tranapp.utils.res_ import MyResponse
 from tranapp.utils.ser_ import BookSer, TypeSer
 from tranapp import models
@@ -31,14 +31,16 @@ class TypeView(MyResponse, APIView):
 
 class BookView(MyResponse, ModelViewSet):
     """常规图书视图,获取全部需要分页"""
-    authentication_classes = [Selsct_auth(LoginAuth2, ["GET"])]
+    # authentication_classes = [Selsct_auth(LoginAuth2, ["GET"])]
+    authentication_classes = [LoginAuth]
     serializer_class = BookSer
     queryset = models.Book.objects.all()
     pagination_class = LimitOffsetPagination
-    filter_backends = [BookByTypeFilter]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
+    filter_backends = [BookByTypeFilter, BookByCampus]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
+
     def perform_create(self, serializer):
         userinfo = self.request.user
-        print("userinfo",userinfo)
+        print("userinfo", userinfo)
         serializer.save(userinfo=userinfo)
 
 

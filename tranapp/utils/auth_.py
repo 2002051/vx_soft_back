@@ -22,10 +22,7 @@ class LoginAuth(BaseAuthentication):
             password = userinfo.get("password")
             md5_password = md5_.setPassword(password)
             userobj = models.UserInfo.objects.filter(username=username, password=md5_password).first()
-
             if userobj:
-                print("userobj", userobj)
-
                 return userobj, token  # request.user  request.auth
             raise AuthenticationFailed("请先登录")
 

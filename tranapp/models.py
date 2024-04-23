@@ -13,12 +13,24 @@ class UserInfo(models.Model):
     campus = models.ForeignKey(verbose_name="所属校区", to="Campus", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
+    class Meta:
+        verbose_name = '用户'
+        verbose_name_plural = '用户'
+
+    def __str__(self):
+        return self.nickname
+
 
 class Session(models.Model):
     """会话，类似于一个聊天室，表示两个人直接的连接关系"""
     sellerid = models.ForeignKey(verbose_name="卖家", related_name='seller', to="UserInfo", on_delete=models.CASCADE)
     buyerid = models.ForeignKey(verbose_name="买家", related_name='buyerid', to="UserInfo", on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = '临时会话管理'
+        verbose_name_plural = '临时会话管理'
+    def __str__(self):
+        return "买家" + self.buyerid.nickname + "|||" + "卖家" + self.sellerid.nickname
 
 class Message(models.Model):
     """消息表"""
@@ -29,15 +41,33 @@ class Message(models.Model):
     content = models.TextField(verbose_name="消息内容")
     create_time = models.DateTimeField(verbose_name="发送时间", auto_now_add=True)
 
+    class Meta:
+        verbose_name = '消息记录'
+        verbose_name_plural = '消息记录'
+
 
 class Campus(models.Model):
     """校区"""
     name = models.CharField(verbose_name="校区名称", max_length=100)
 
+    class Meta:
+        verbose_name = '校区'
+        verbose_name_plural = '校区'
+
+    def __str__(self):
+        return self.name
+
 
 class Type(models.Model):
     """二手书类别"""
     title = models.CharField(verbose_name="类别名", max_length=128)
+
+    class Meta:
+        verbose_name = '二手书类别'
+        verbose_name_plural = '二手书类别'
+
+    def __str__(self):
+        return self.title
 
 
 class Book(models.Model):
@@ -52,6 +82,13 @@ class Book(models.Model):
     userinfo = models.ForeignKey(verbose_name="发布者", to="UserInfo", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="发送时间", auto_now_add=True)
 
+    class Meta:
+        verbose_name = '二手书'  # 设置模型在Admin中单数显示的名称
+        verbose_name_plural = '二手书'  # 设置模型在Admin中复数显示的名称
+
+    def __str__(self):
+        return self.name
+
 
 class Cart(models.Model):
     """购物车条目"""
@@ -59,6 +96,13 @@ class Cart(models.Model):
     book = models.ForeignKey(verbose_name="书籍", to="Book", on_delete=models.CASCADE)
     quantity = models.IntegerField(verbose_name="数量", default=1)
     create_time = models.DateTimeField(verbose_name="添加时间", auto_now_add=True)
+
+    class Meta:
+        verbose_name = '购物车条目'
+        verbose_name_plural = '购物车条目'
+
+    def __str__(self):
+        return "用户" + self.user.nickname + "的购物车条目"
 
 
 class Order(models.Model):
@@ -76,15 +120,29 @@ class Order(models.Model):
     status = models.IntegerField(verbose_name="订单状态", choices=STATUS_CHOICES, default=0)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
+    class Meta:
+        verbose_name = '订单'
+        verbose_name_plural = '订单'
+
+    def __str__(self):
+        return "用户" + self.user.nickname + "的订单"
+
 
 class Address(models.Model):
     """地址表"""
     userinfo = models.ForeignKey(verbose_name="用户", to="UserInfo", on_delete=models.CASCADE, default=1)
     receiver_name = models.CharField(verbose_name="收件人姓名", max_length=100)
     phone_number = models.CharField(verbose_name="联系电话", max_length=20)
-    campus = models.ForeignKey(verbose_name="校区", to="Campus", on_delete=models.CASCADE,default=1)
+    campus = models.ForeignKey(verbose_name="校区", to="Campus", on_delete=models.CASCADE, default=1)
     is_default = models.BooleanField(verbose_name="是否默认地址", default=False)
     detail = models.TextField(verbose_name="配送说明", blank=True, null=True)
+
+    class Meta:
+        verbose_name = '地址'
+        verbose_name_plural = '地址'
+
+    def __str__(self):
+        return "收件人：" + self.receiver_name + "..."
 
 # class Article(models.Model):
 #     """帖子"""

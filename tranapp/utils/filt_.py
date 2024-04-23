@@ -3,7 +3,7 @@ from rest_framework.filters import BaseFilterBackend
 
 
 class BookByTypeFilter(BaseFilterBackend):
-    """ 图书按照分类过滤"""
+    """ 图书按照分类,如果没有type，则跳过"""
 
     def filter_queryset(self, request, queryset, view):
         type_id = request.query_params.get('type', "")
@@ -11,12 +11,15 @@ class BookByTypeFilter(BaseFilterBackend):
             return queryset
         return queryset.filter(type_id=type_id)
 
-
+from tranapp import models
 class BookByCampus(BaseFilterBackend):
     """按照校区过滤"""
     def filter_queryset(self, request, queryset, view):
         userinfo = request.user
-        return queryset
+        campus = userinfo.campus
+        # models.Book.objects.filter()
+        print(queryset)
+        return queryset.filter(userinfo__campus_id=campus.id)
 
 
 class OrderByUserFilter(BaseFilterBackend):

@@ -19,7 +19,6 @@ from django.urls import path
 from django.conf.urls.static import static
 from tranapp.views import user, books, order, address, upload, wbchat, cart,search
 from soft import settings
-
 # from tranapp.views.wbchat import MessageView
 
 urlpatterns = [

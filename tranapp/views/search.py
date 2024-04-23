@@ -1,3 +1,4 @@
+# 查询相关视图
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import GenericAPIView
@@ -12,5 +13,15 @@ from tranapp import models
 
 
 class BookSearchVie(MyResponse, APIView):
+    """查询书籍"""
+    authentication_classes = [LoginAuth]
+
     def get(self, request):
-        return Response("搜索书籍")
+        wd = request.query_params.get("wd")
+        user = request.user
+        if wd:
+            queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id, name__icontains=wd)
+        else:
+            queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id)
+        ser = BookSer(instance=queryset,many=True)
+        return Response(ser.data)

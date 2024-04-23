@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "tranapp.apps.TranappConfig",
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,7 +126,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 # 设置上传文件的路径
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 指定根目录
-
+ADMIN_SITE_HEADER = '我的自定义管理后台标题'
+ADMIN_SITE_TITLE = '我的自定义管理后台标题'
 ### drf配置
 
 REST_FRAMEWORK = {

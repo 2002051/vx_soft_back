@@ -21,6 +21,33 @@ class AddressView(MyResponse, ModelViewSet):
     pagination_class = LimitOffsetPagination
     serializer_class = AddressSer
     filter_backends = [AddressByUserFilter]
+
+    ## 如果创建的地址，或者修改的地址里面is_default 为true 那么就把其它的都改为false
     def perform_create(self, serializer):
+        is_default = serializer.validated_data.get("is_default")
+        if is_default:
+            queryset = models.Address.objects.filter(userinfo_id=self.request.user.id).all()
+            for query in queryset:
+                query.is_default = False
+                query.save()
         userinfo = self.request.user
         serializer.save(userinfo=userinfo)
+
+    def perform_update(self, serializer):
+        is_default = serializer.validated_data.get("is_default")
+        if is_default:
+            queryset = models.Address.objects.filter(userinfo_id=self.request.user.id).all()
+            for query in queryset:
+                query.is_default = False
+                query.save()
+        serializer.save()
+
+    ## 如果删掉的是默认地址，那么就选取第一个地址作为默认地址
+    def perform_destroy(self, instance):
+        is_default = instance.is_default
+        userinfo = self.request.user
+        instance.delete()
+        if is_default:
+            obj = models.Address.objects.filter(userinfo_id=userinfo.id).first()
+            obj.is_default = True
+            obj.save()
