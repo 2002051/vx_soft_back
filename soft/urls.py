@@ -27,6 +27,7 @@ urlpatterns = [
     path("api/register/", user.RegisterView.as_view()),
     path("api/login/", user.LoginView.as_view()),
     path("api/campus/", user.CampusView.as_view()),
+    path("api/edited/user/",user.EditView.as_view()),
 
     path("api/type/", books.TypeView.as_view()),
     path("api/book/", books.BookView.as_view({"get": "list", "post": "create"})),

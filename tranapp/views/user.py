@@ -2,7 +2,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from tranapp.utils.res_ import MyResponse
-from tranapp.utils.ser_ import RegisterSer, LoginSer,CampusSer
+from tranapp.utils.auth_ import LoginAuth
+from tranapp.utils.ser_ import RegisterSer, LoginSer, CampusSer, EditUserSer
 from tranapp import models
 
 
@@ -12,6 +13,19 @@ class RegisterView(MyResponse, APIView):
     def post(self, request):
         ser = RegisterSer(data=request.data)
         ser.is_valid(raise_exception=True)  # 校验逻辑在序列化器的钩子方法
+        ser.save()
+        return Response(ser.data)
+
+
+class EditView(MyResponse, APIView):
+    authentication_classes = [LoginAuth]
+    """编辑用户信息"""
+
+    def put(self, request):
+        userinfo = request.user
+        instance = models.UserInfo.objects.filter(id=userinfo.id).first()
+        ser = EditUserSer(data=request.data, instance=instance)
+        ser.is_valid(raise_exception=True)
         ser.save()
         return Response(ser.data)
 
@@ -28,8 +42,8 @@ class LoginView(MyResponse, APIView):
         return Response({"user": ser2.data, "token": token})
 
 
-class CampusView(MyResponse,APIView):
-    def get(self,request):
+class CampusView(MyResponse, APIView):
+    def get(self, request):
         queryset = models.Campus.objects.all()
-        ser = CampusSer(instance=queryset,many=True)
+        ser = CampusSer(instance=queryset, many=True)
         return Response(ser.data)

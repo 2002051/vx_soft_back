@@ -30,6 +30,13 @@ class RegisterSer(serializers.ModelSerializer):
         return attrs
 
 
+class EditUserSer(serializers.ModelSerializer):
+    """编辑信息序列化器"""
+    password = serializers.CharField(allow_blank=True, required=False)
+    class Meta:
+        model = models.UserInfo
+        fields = "__all__"
+
 class LoginSer(serializers.ModelSerializer):
     avatar = serializers.CharField(read_only=True)
     nickname = serializers.CharField(read_only=True)
