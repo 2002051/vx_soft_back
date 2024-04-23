@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from tranapp.views import user, books, order, address
+from tranapp.views import user, books, order, address, upload
 from soft import settings
 
 urlpatterns = [
@@ -36,6 +36,8 @@ urlpatterns = [
     path("api/address/", address.AddressView.as_view({"get": "list", "post": 'create'})),
     path("api/address/<int:pk>/",
          address.AddressView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
-
+    ##  文件上传视图
+    path("upload/avatar/", upload.AvatarUpload.as_view()),
+    path("upload/book_img/", upload.BookImgUpload.as_view()),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

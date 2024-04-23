@@ -36,7 +36,6 @@ class BookView(MyResponse, ModelViewSet):
     queryset = models.Book.objects.all()
     pagination_class = LimitOffsetPagination
     filter_backends = [BookByTypeFilter]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
-
     def perform_create(self, serializer):
         userinfo = self.request.user
         serializer.save(userinfo=userinfo)
