@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from tranapp.views import user, books, order, address, upload
+from tranapp.views import user, books, order, address, upload, wbchat, cart
 from soft import settings
 
+# from tranapp.views.wbchat import MessageView
+
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path("api/register/", user.RegisterView.as_view()),
     path("api/login/", user.LoginView.as_view()),
     path("api/campus/", user.CampusView.as_view()),
@@ -36,8 +38,16 @@ urlpatterns = [
     path("api/address/", address.AddressView.as_view({"get": "list", "post": 'create'})),
     path("api/address/<int:pk>/",
          address.AddressView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+
+    # 消息记录
+    path("api/message/", wbchat.MessageView.as_view()),
+
     ##  文件上传视图
     path("upload/avatar/", upload.AvatarUpload.as_view()),
     path("upload/book_img/", upload.BookImgUpload.as_view()),
+
+    path("api/cart/", cart.CartView.as_view({"get": "list", "post": "create"})),
+    path("api/cart/<int:pk>/", cart.CartView.as_view({"get": "retrieve","delete": "destroy"})),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

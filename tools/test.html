@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+var ws = new WebSocket("ws://" + "127.0.0.1:8000" + "/chat/1/2/")
+
+  ws.onmessage = function (event) {
+        console.log("有人发送消息了：",event.data)
+    }
+
+    function dosend() {
+        let text = document.getElementById("txt").value
+        ws.send(text)
+    }
+
+    function doclose() {
+        ws.close()
+    }
+
+</script>
+</body>
+</html>

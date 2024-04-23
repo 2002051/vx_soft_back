@@ -117,3 +117,18 @@ class AddressSer(serializers.ModelSerializer):
         model = models.Address
         fields = "__all__"
         depth = 1  # 一级深度查询外键，如果懒得定制字段可以这样，但会略微影响效率
+
+
+############################  消息相关 #######################################
+
+class MessageSer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Message
+        fields = "__all__"
+        depth = 1
+
+
+class SessionSer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Session
+        fields = "__all__"

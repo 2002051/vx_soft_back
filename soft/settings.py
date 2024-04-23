@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret! #这里改了下次的jwt就会失效，请注意！！
 SECRET_KEY = 'django-insecure-(5r0)!@)-4mt@s1enh0fond$eq$+%-z*m&s2k(hpr*(d(%jf8)'
-
+MySOLT = "AJDADKLASNLKZHFOIAEJFQAWFKOWFNZSJMP[OC"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

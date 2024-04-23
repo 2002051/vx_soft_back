@@ -1,7 +1,6 @@
 from django.urls import path
-from tranapp import views
-
+from tranapp.views import wbchat
 
 websocket_urlpatterns = [
-    # path("wbchat/<str:user1>/<str:user2>/", views.ChatConsumen.as_asgi())
+    path("chat/<int:buyer>/<int:seller>/", wbchat.ChatRoom.as_asgi())
 ]
