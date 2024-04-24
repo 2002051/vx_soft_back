@@ -29,6 +29,15 @@ class OrderByUserFilter(BaseFilterBackend):
         userinfo = request.user
         return queryset.filter(user_id=userinfo.id)
 
+class OrderBySellerFilter(BaseFilterBackend):
+    """ 订单按照卖家身份过滤过滤 """
+
+    def filter_queryset(self, request, queryset, view):
+        userinfo = request.user
+        return queryset.filter(seller_id=userinfo.id)
+
+
+
 
 class AddressByUserFilter(BaseFilterBackend):
     """地址按照用户过滤"""

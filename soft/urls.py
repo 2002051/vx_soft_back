@@ -35,6 +35,8 @@ urlpatterns = [
 
     path("api/order/", order.OrderView.as_view({"get": "list", "post": 'create'})),
     path("api/order/<int:pk>/", order.OrderView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    path("api/sell/order/", order.OrderSellView.as_view({"get": "list"})),
+    path("api/sell/order/<int:pk>/", order.OrderSellView.as_view({"get": "retrieve"})),
 
     path("api/address/", address.AddressView.as_view({"get": "list", "post": 'create'})),
     path("api/address/<int:pk>/",

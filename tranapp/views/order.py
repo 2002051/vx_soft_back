@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from tranapp.utils.filt_ import OrderByUserFilter
+from tranapp.utils.filt_ import OrderByUserFilter, OrderBySellerFilter
 from tranapp.utils.res_ import MyResponse
 from tranapp.utils.ser_ import OrderSer
 from tranapp import models
@@ -14,7 +14,7 @@ from tranapp.utils.auth_ import LoginAuth
 
 
 class OrderView(MyResponse, ModelViewSet):
-    """订单视图"""
+    """用户视角订单视图"""
     authentication_classes = [LoginAuth]
     pagination_class = LimitOffsetPagination
     serializer_class = OrderSer
@@ -25,3 +25,14 @@ class OrderView(MyResponse, ModelViewSet):
         print(serializer.validated_data)
         userinfo = self.request.user
         serializer.save(user=userinfo)
+
+
+class OrderSellView(MyResponse, ModelViewSet):
+    """卖家视角订单视图"""
+    authentication_classes = [LoginAuth]
+    pagination_class = LimitOffsetPagination
+    serializer_class = OrderSer
+    queryset = models.Order.objects.all()
+    filter_backends = [OrderBySellerFilter]
+
+
