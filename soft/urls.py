@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from tranapp.views import user, books, order, address, upload, wbchat, cart,search
+from tranapp.views import user, books, order, address, upload, wbchat, cart, search
 from soft import settings
+
 # from tranapp.views.wbchat import MessageView
 
 urlpatterns = [
@@ -26,7 +27,7 @@ urlpatterns = [
     path("api/register/", user.RegisterView.as_view()),
     path("api/login/", user.LoginView.as_view()),
     path("api/campus/", user.CampusView.as_view()),
-    path("api/edited/user/",user.EditView.as_view()),
+    path("api/edited/user/", user.EditView.as_view()),
 
     path("api/type/", books.TypeView.as_view()),
     path("api/book/", books.BookView.as_view({"get": "list", "post": "create"})),
@@ -38,6 +39,7 @@ urlpatterns = [
     path("api/address/", address.AddressView.as_view({"get": "list", "post": 'create'})),
     path("api/address/<int:pk>/",
          address.AddressView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    path('api/address/default/<int:pk>/', address.AddDefault.as_view()),
 
     # 消息记录
     path("api/message/", wbchat.MessageView.as_view()),
@@ -47,11 +49,10 @@ urlpatterns = [
     path("upload/book_img/", upload.BookImgUpload.as_view()),
 
     path("api/cart/", cart.CartView.as_view({"get": "list", "post": "create"})),
-    path("api/cart/<int:pk>/", cart.CartView.as_view({"get": "retrieve","delete": "destroy"})),
-
+    path("api/cart/<int:pk>/", cart.CartView.as_view({"get": "retrieve", "delete": "destroy"})),
 
     # 搜索相关
-    path("api/book/search/",search.BookSearchVie.as_view()),
+    path("api/book/search/", search.BookSearchVie.as_view()),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

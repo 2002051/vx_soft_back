@@ -51,3 +51,22 @@ class AddressView(MyResponse, ModelViewSet):
             obj = models.Address.objects.filter(userinfo_id=userinfo.id).first()
             obj.is_default = True
             obj.save()
+
+
+class AddDefault(MyResponse, APIView):
+    """小程序端点击某地址设置为默认地址"""
+    authentication_classes = [LoginAuth]
+
+    def put(self, request, pk):
+        userinfo = request.user
+        queryset = models.Address.objects.filter(userinfo_id=userinfo.id).all()
+        obj = models.Address.objects.filter(id=pk, userinfo_id=userinfo.id).first()
+
+        if obj:
+            for query in queryset:
+                query.is_default = False
+                query.save()
+            obj.is_default = True
+            obj.save()
+            return Response("ok")
+        return Response("no_found")
