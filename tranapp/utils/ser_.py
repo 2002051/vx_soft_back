@@ -97,18 +97,19 @@ class OrderSer(serializers.ModelSerializer):
     """订单序列化器"""
     # status = serializers.CharField( read_only=True)
     # status_text = serializers.CharField(source="get_status_display", read_only=True)
-    status = serializers.SerializerMethodField(read_only=True)
+    status_dict = serializers.SerializerMethodField(read_only=True)
     address_id = serializers.IntegerField(write_only=True)
     seller_id = serializers.IntegerField(write_only=True)
     book_id = serializers.IntegerField(write_only=True)
     quantity = serializers.IntegerField(write_only=True)
+    status = serializers.IntegerField(allow_null=True,write_only=True)
 
     class Meta:
         model = models.Order
         fields = "__all__"
         depth = 2
 
-    def get_status(self, obj):
+    def get_status_dict(self, obj):
         return {
             obj.status,
             obj.get_status_display(),

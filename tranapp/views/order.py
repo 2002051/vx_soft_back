@@ -22,9 +22,11 @@ class OrderView(MyResponse, ModelViewSet):
     filter_backends = [OrderByUserFilter]
 
     def perform_create(self, serializer):
-        print(serializer.validated_data)
         userinfo = self.request.user
         serializer.save(user=userinfo)
+    def perform_update(self, serializer):
+        print("ser",serializer.validated_data)
+        serializer.save()
 
 
 class OrderSellView(MyResponse, ModelViewSet):
