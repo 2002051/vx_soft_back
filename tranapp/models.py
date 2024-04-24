@@ -113,9 +113,10 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField(verbose_name="数量", default=1)
     address = models.ForeignKey(to="Address", verbose_name="配送地址", related_name="orders", on_delete=models.CASCADE)
     STATUS_CHOICES = (
-        (0, '待收货'),
-        (1, '已确认'),
-        (2, '我的售卖'),
+        (0, '待支付'),
+        (1, '待收货'),
+        (2, '已确认'),
+        (3, '我的售卖'),
     )
     status = models.IntegerField(verbose_name="订单状态", choices=STATUS_CHOICES, default=0)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)

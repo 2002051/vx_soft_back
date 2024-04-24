@@ -23,5 +23,5 @@ class BookSearchVie(MyResponse, APIView):
             queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id, name__icontains=wd)
         else:
             queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id)
-        ser = BookSer(instance=queryset,many=True)
+        ser = BookSer(instance=queryset, many=True)
         return Response(ser.data)
