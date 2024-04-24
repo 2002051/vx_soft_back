@@ -145,6 +145,7 @@ class SessionSer(serializers.ModelSerializer):
 
 ################################  购物车相关  #####################################
 class CartSer(serializers.ModelSerializer):
+    book_id = serializers.IntegerField(write_only=True)
     class Meta:
         model = models.Cart
         fields = "__all__"

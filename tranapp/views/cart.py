@@ -19,5 +19,7 @@ class CartView(MyResponse, ModelViewSet):
     queryset = models.Cart.objects.all()
     filter_backends = [CartByUserFilter]
 
-
-
+    def perform_create(self, serializer):
+        print(serializer.validated_data)
+        userinfo = self.request.user
+        serializer.save(user=userinfo)
