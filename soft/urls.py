@@ -51,7 +51,7 @@ urlpatterns = [
     path("upload/book_img/", upload.BookImgUpload.as_view()),
 
     path("api/cart/", cart.CartView.as_view({"get": "list", "post": "create"})),
-    path("api/cart/<int:pk>/", cart.CartView.as_view({"get": "retrieve", "delete": "destroy"})),
+    path("api/cart/<int:pk>/", cart.CartView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
 
     # 搜索相关
     path("api/book/search/", search.BookSearchVie.as_view()),

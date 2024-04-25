@@ -120,7 +120,7 @@ class AddressSer(serializers.ModelSerializer):
     """地址序列化器"""
 
     campus_id = serializers.IntegerField(write_only=True)
-    is_default = serializers.BooleanField(write_only=True)
+    is_default = serializers.BooleanField()
 
     class Meta:
         model = models.Address
