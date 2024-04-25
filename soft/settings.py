@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "tranapp.apps.TranappConfig",
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,9 +125,59 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 # 设置上传文件的路径
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 指定根目录
-ADMIN_SITE_HEADER = '我的自定义管理后台标题'
-ADMIN_SITE_TITLE = '我的自定义管理后台标题'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 指定根目录加载文件的路径
+
+ADMIN_SITE_HEADER = '二手书交易小程序后台管理'
+ADMIN_SITE_TITLE = '二手书交易小程序后台管理'
+# 日志相关配置
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     # 日志的格式
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
+#         },
+#     },
+#     # 日志的过滤信息
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         },
+#     },
+#     # 日志的处理方式配置
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple'
+#         },
+#         'file': {
+#             'level': 'INFO',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             # 日志位置,日志文件名,日志保存目录必须手动创建
+#             'filename': os.path.join(os.path.dirname(BASE_DIR), "soft/logs/test.log"),
+#             # 日志文件的最大值,这里我们设置300M
+#             'maxBytes': 300 * 1024 * 1024,
+#             # 日志文件的数量,设置最大日志数量为10
+#             'backupCount': 10,
+#             # 日志格式:详细格式
+#             'formatter': 'verbose'
+#         },
+#     },
+#     # 日志对象
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'file'],
+#             'propagate': True, # 是否让日志信息继续冒泡给其他的日志处理系统
+#         },
+#     }
+# }
+
 ### drf配置
 
 REST_FRAMEWORK = {

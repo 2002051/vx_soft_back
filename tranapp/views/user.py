@@ -32,7 +32,6 @@ class EditView(MyResponse, APIView):
 
 class LoginView(MyResponse, APIView):
     """登录视图"""
-
     def post(self, request):
         ser = LoginSer(data=request.data)
         ser.is_valid(raise_exception=True)  # 序列化器钩子包含用户名密码校验以及生成jwt
@@ -40,6 +39,9 @@ class LoginView(MyResponse, APIView):
         instance = models.UserInfo.objects.filter(**ser.data).first()
         ser2 = LoginSer(instance=instance)
         return Response({"user": ser2.data, "token": token})
+
+
+
 
 
 class CampusView(MyResponse, APIView):

@@ -28,7 +28,6 @@ class OrderView(MyResponse, ModelViewSet):
         print("ser",serializer.validated_data)
         serializer.save()
 
-
 class OrderSellView(MyResponse, ModelViewSet):
     """卖家视角订单视图"""
     authentication_classes = [LoginAuth]

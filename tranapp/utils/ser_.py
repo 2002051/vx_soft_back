@@ -34,9 +34,11 @@ class EditUserSer(serializers.ModelSerializer):
     """编辑信息序列化器"""
     username = serializers.CharField(allow_blank=True, required=False)
     password = serializers.CharField(allow_blank=True, required=False)
+
     class Meta:
         model = models.UserInfo
         fields = "__all__"
+
 
 class LoginSer(serializers.ModelSerializer):
     avatar = serializers.CharField(read_only=True)
@@ -102,7 +104,7 @@ class OrderSer(serializers.ModelSerializer):
     seller_id = serializers.IntegerField(write_only=True)
     book_id = serializers.IntegerField(write_only=True)
     quantity = serializers.IntegerField(write_only=True)
-    status = serializers.IntegerField(allow_null=True,write_only=True)
+    status = serializers.IntegerField(allow_null=True, write_only=True)
 
     class Meta:
         model = models.Order
@@ -143,11 +145,20 @@ class SessionSer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
 ################################  购物车相关  #####################################
 class CartSer(serializers.ModelSerializer):
     book_id = serializers.IntegerField(write_only=True)
+
     class Meta:
         model = models.Cart
         fields = "__all__"
         depth = 1
+
+
+################################  其它  #####################################
+
+
+class BannerSer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Banner
+        fields = "__all__"

@@ -4,6 +4,18 @@ import random
 
 # Create your models here.
 
+class Banner(models.Model):
+    """轮播图模型"""
+    # 模型字段
+    image_url = models.ImageField(upload_to="banner/", verbose_name="轮播图")
+    link = models.CharField(max_length=500, verbose_name="链接")
+    remark = models.TextField(verbose_name="备注信息")
+
+    class Meta:
+        verbose_name = '轮播图'
+        verbose_name_plural = '轮播图'
+
+
 class UserInfo(models.Model):
     """用户"""
     avatar = models.CharField(verbose_name="头像", max_length=128, default="/media/avatar/default.png")
@@ -29,8 +41,10 @@ class Session(models.Model):
     class Meta:
         verbose_name = '临时会话管理'
         verbose_name_plural = '临时会话管理'
+
     def __str__(self):
         return "买家" + self.buyerid.nickname + "|||" + "卖家" + self.sellerid.nickname
+
 
 class Message(models.Model):
     """消息表"""

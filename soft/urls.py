@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from tranapp.views import user, books, order, address, upload, wbchat, cart, search
+from tranapp.views import user, books, order, address, upload, wbchat, cart, search,other
 from soft import settings
 
 # from tranapp.views.wbchat import MessageView
@@ -55,6 +55,9 @@ urlpatterns = [
 
     # 搜索相关
     path("api/book/search/", search.BookSearchVie.as_view()),
+
+    # 轮播图获取
+    path("api/banner/",other.BannerView.as_view()),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
