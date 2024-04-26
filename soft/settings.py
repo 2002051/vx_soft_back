@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     "daphne.apps.DaphneConfig",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +42,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "tranapp.apps.TranappConfig",
 ]
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
