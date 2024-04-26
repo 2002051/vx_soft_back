@@ -24,7 +24,7 @@ MySOLT = "AJDADKLASNLKZHFOIAEJFQAWFKOWFNZSJMP[OC"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -183,7 +183,11 @@ ADMIN_SITE_TITLE = '二手书交易小程序后台管理'
 #     }
 # }
 
+
+
 ### drf配置
+
+
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': "tranapp.utils.exc_.MyExcHandler",  # 异常处理函数
