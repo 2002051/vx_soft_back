@@ -41,6 +41,7 @@ class EditUserSer(serializers.ModelSerializer):
 
 
 class LoginSer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     avatar = serializers.CharField(read_only=True)
     nickname = serializers.CharField(read_only=True)
     # campus = serializers.CharField(source="campus.name", read_only=True)
@@ -48,7 +49,7 @@ class LoginSer(serializers.ModelSerializer):
 
     class Meta:
         model = models.UserInfo
-        fields = ["username", "password", "avatar", "nickname", "campus"]
+        fields = ["id","username", "password", "avatar", "nickname", "campus"]
         depth = 1
 
     def validate(self, attrs):

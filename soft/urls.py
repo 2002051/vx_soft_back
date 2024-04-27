@@ -65,5 +65,8 @@ urlpatterns = [
     # 轮播图获取
     path("api/banner/", other.BannerView.as_view()),
 
+    # 修改当前用户校区
+    path("api/user/campus/<int:cid>/",user.UserCampusChangeView.as_view()),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
