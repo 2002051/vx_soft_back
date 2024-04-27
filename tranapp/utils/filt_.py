@@ -6,8 +6,10 @@ class BookByTypeFilter(BaseFilterBackend):
     """ 图书按照分类,如果没有type，则跳过"""
 
     def filter_queryset(self, request, queryset, view):
+
         type_id = request.query_params.get('type', "")
-        if type != "":
+        print(type_id)
+        if type_id == "":
             return queryset
         return queryset.filter(type_id=type_id)
 

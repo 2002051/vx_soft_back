@@ -108,7 +108,7 @@ class OrderSer(serializers.ModelSerializer):
     address_id = serializers.IntegerField(write_only=True)
     seller_id = serializers.IntegerField(write_only=True)
     book_id = serializers.IntegerField(write_only=True)
-    quantity = serializers.IntegerField(write_only=True)
+    # quantity = serializers.IntegerField()
     status = serializers.IntegerField(allow_null=True, write_only=True)
 
     class Meta:

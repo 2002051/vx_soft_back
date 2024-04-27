@@ -16,7 +16,9 @@ from tranapp.utils.auth_ import LoginAuth
 class OrderView(MyResponse, ModelViewSet):
     """用户视角订单视图"""
     authentication_classes = [LoginAuth]
-    pagination_class = LimitOffsetPagination
+    # pagination_class = LimitOffsetPagination
+    pagination_class = None # 禁用全局分页组件
+
     serializer_class = OrderSer
     queryset = models.Order.objects.all()
     filter_backends = [OrderByUserFilter]
@@ -31,7 +33,8 @@ class OrderView(MyResponse, ModelViewSet):
 class OrderSellView(MyResponse, ModelViewSet):
     """卖家视角订单视图"""
     authentication_classes = [LoginAuth]
-    pagination_class = LimitOffsetPagination
+    # pagination_class = LimitOffsetPagination
+    pagination_class = None # 禁用全局分页组件
     serializer_class = OrderSer
     queryset = models.Order.objects.all()
     filter_backends = [OrderBySellerFilter]
