@@ -48,6 +48,9 @@ urlpatterns = [
 
     # 消息记录
     path("api/message/", wbchat.MessageView.as_view()),
+    # 获取聊天室信息
+    path("api/session/",wbchat.SessionView.as_view()),
+
 
     ##  文件上传视图
     path("upload/avatar/", upload.AvatarUpload.as_view()),

@@ -108,7 +108,7 @@ class OrderSer(serializers.ModelSerializer):
     address_id = serializers.IntegerField(write_only=True)
     seller_id = serializers.IntegerField(write_only=True)
     book_id = serializers.IntegerField(write_only=True)
-    # quantity = serializers.IntegerField()
+    quantity = serializers.IntegerField()
     status = serializers.IntegerField(allow_null=True, write_only=True)
 
     class Meta:
@@ -148,6 +148,7 @@ class SessionSer(serializers.ModelSerializer):
     class Meta:
         model = models.Session
         fields = "__all__"
+        depth = 1
 
 
 ################################  购物车相关  #####################################

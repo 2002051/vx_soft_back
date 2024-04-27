@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from tranapp.utils.res_ import MyResponse
 from tranapp.utils.auth_ import LoginAuth
-from tranapp.utils.ser_ import MessageSer
+from tranapp.utils.ser_ import MessageSer, SessionSer
 
 Session_DICT = {}
 
@@ -63,7 +63,8 @@ class ChatRoom(WebsocketConsumer):
 
         # 获取发送者的信息
         userinfo = models.UserInfo.objects.filter(id=sender).first()
-        result = {"user_id": userinfo.id, "avatar": userinfo.avatar, "msg": message_obj.content}
+        result = {"user_id": userinfo.id, "avatar": userinfo.avatar, "name": userinfo.nickname,
+                  "msg": message_obj.content}
         # 广播消息
         for client in Session_DICT[session_obj.id]:
             client.send(text_data=json.dumps(result))
@@ -86,3 +87,19 @@ class MessageView(MyResponse, APIView):
         ser = MessageSer(instance=queryset, many=True)
         ser2 = MessageSer(page.paginate_queryset(queryset, self.request, view=None), many=True)
         return page.get_paginated_response(ser2.data)
+
+
+class SessionView(MyResponse, APIView):
+    """获取Session信息
+      接口类似于这种格式  api/session/?buyer=1&seller=2
+    """
+    authentication_classes = [LoginAuth]
+    def get(self, request):
+        try:
+            buyer_id = int(request.query_params.get("buyer"))
+            seller_id = int(request.query_params.get("seller"))
+            queryset = models.Session.objects.filter(buyerid_id=buyer_id, sellerid_id=seller_id).first()
+            ser = SessionSer(instance=queryset)
+            return Response(ser.data)
+        except:
+            return Response("请求错误，请联系开发者ytw")

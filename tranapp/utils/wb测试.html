@@ -12,6 +12,14 @@
     ws.onmessage = function (event) {
         console.log(event.data)
     }
+    ws.onopen = function (event) {
+    }
+    ws.onmessage = function (event) {
+        console.log("接收到消息了：",event)
+    }
+    ws.onclose = function (event) {
+  console.log("连接关闭")
+    }
 
 
     function dosend() {
