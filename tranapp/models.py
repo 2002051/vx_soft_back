@@ -95,6 +95,7 @@ class Book(models.Model):
     status = models.CharField(verbose_name="使用情况", max_length=128)
     userinfo = models.ForeignKey(verbose_name="发布者", to="UserInfo", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="发送时间", auto_now_add=True)
+    active = models.IntegerField(verbose_name="状态",choices=((1,"未出售"),(2,"已出售")),default=1)
 
     class Meta:
         verbose_name = '二手书'  # 设置模型在Admin中单数显示的名称

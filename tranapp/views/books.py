@@ -5,8 +5,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
-from tranapp.utils.auth_ import LoginAuth2,LoginAuth
-from tranapp.utils.filt_ import BookByTypeFilter, BookByCampus
+from tranapp.utils.auth_ import LoginAuth2, LoginAuth
+from tranapp.utils.filt_ import BookByTypeFilter, BookByCampusFilter,BookByUserFilter
 from tranapp.utils.res_ import MyResponse
 from tranapp.utils.ser_ import BookSer, TypeSer
 from tranapp import models
@@ -34,9 +34,9 @@ class BookView(MyResponse, ModelViewSet):
     # authentication_classes = [Selsct_auth(LoginAuth2, ["GET"])]
     authentication_classes = [LoginAuth]
     serializer_class = BookSer
-    queryset = models.Book.objects.all()
+    queryset = models.Book.objects.filter(active=1).all()
     pagination_class = LimitOffsetPagination
-    filter_backends = [BookByTypeFilter, BookByCampus]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
+    filter_backends = [BookByTypeFilter, BookByCampusFilter]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
 
     def perform_create(self, serializer):
         userinfo = self.request.user
@@ -46,6 +46,14 @@ class BookView(MyResponse, ModelViewSet):
 
 class BookTView(MyResponse, APIView):
     """根据类别获取图书列表"""
-
     def get(self, request, tid):
         return Response("ok")
+
+
+class BookSelfView(MyResponse,ModelViewSet):
+    """我的售卖(即展示自己兜售的图书信息)"""
+    authentication_classes = [LoginAuth]
+    serializer_class = BookSer
+    queryset = models.Book.objects.all().order_by("active")
+    pagination_class = LimitOffsetPagination
+    filter_backends = [BookByUserFilter]

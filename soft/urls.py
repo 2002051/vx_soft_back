@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from tranapp.views import user, books, order, address, upload, wbchat, cart, search,other
+from tranapp.views import user, books, order, address, upload, wbchat, cart, search, other
 from soft import settings
 
 # from tranapp.views.wbchat import MessageView
@@ -32,11 +32,14 @@ urlpatterns = [
     path("api/type/", books.TypeView.as_view()),
     path("api/book/", books.BookView.as_view({"get": "list", "post": "create"})),
     path("api/book/<int:pk>/", books.BookView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
+    path("api/self/book/", books.BookSelfView.as_view({"get": "list", "post": "create"})),
+    path("api/self/book/<int:pk>/",
+         books.BookSelfView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
 
     path("api/order/", order.OrderView.as_view({"get": "list", "post": 'create'})),
     path("api/order/<int:pk>/", order.OrderView.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
     path("api/sell/order/", order.OrderSellView.as_view({"get": "list"})),
-    path("api/sell/order/<int:pk>/", order.OrderSellView.as_view({"get": "retrieve","put":"update"})),
+    path("api/sell/order/<int:pk>/", order.OrderSellView.as_view({"get": "retrieve", "put": "update"})),
 
     path("api/address/", address.AddressView.as_view({"get": "list", "post": 'create'})),
     path("api/address/<int:pk>/",
@@ -57,7 +60,7 @@ urlpatterns = [
     path("api/book/search/", search.BookSearchVie.as_view()),
 
     # 轮播图获取
-    path("api/banner/",other.BannerView.as_view()),
+    path("api/banner/", other.BannerView.as_view()),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

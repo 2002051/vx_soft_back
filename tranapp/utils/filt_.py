@@ -11,15 +11,27 @@ class BookByTypeFilter(BaseFilterBackend):
             return queryset
         return queryset.filter(type_id=type_id)
 
+
 from tranapp import models
-class BookByCampus(BaseFilterBackend):
+
+
+class BookByCampusFilter(BaseFilterBackend):
     """按照校区过滤"""
+
     def filter_queryset(self, request, queryset, view):
         userinfo = request.user
         campus = userinfo.campus
         # models.Book.objects.filter()
         print(queryset)
         return queryset.filter(userinfo__campus_id=campus.id)
+
+
+class BookByUserFilter(BaseFilterBackend):
+    """按照认证用户过滤图书条目"""
+
+    def filter_queryset(self, request, queryset, view):
+        userinfo = request.user
+        return queryset.filter(userinfo=userinfo)
 
 
 class OrderByUserFilter(BaseFilterBackend):
@@ -29,14 +41,13 @@ class OrderByUserFilter(BaseFilterBackend):
         userinfo = request.user
         return queryset.filter(user_id=userinfo.id)
 
+
 class OrderBySellerFilter(BaseFilterBackend):
     """ 订单按照卖家身份过滤过滤 """
 
     def filter_queryset(self, request, queryset, view):
         userinfo = request.user
         return queryset.filter(seller_id=userinfo.id)
-
-
 
 
 class AddressByUserFilter(BaseFilterBackend):

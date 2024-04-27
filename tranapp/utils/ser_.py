@@ -80,12 +80,17 @@ class CampusSer(serializers.ModelSerializer):
 class BookSer(serializers.ModelSerializer):
     """书籍序列化器"""
     type_id = serializers.IntegerField(write_only=True)
-
+    active_dict = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = models.Book
         fields = "__all__"
         depth = 1
 
+    def get_active_dict(self, obj):
+        return {
+            obj.active,
+            obj.get_active_display(),
+        }
 
 class TypeSer(serializers.ModelSerializer):
     class Meta:
