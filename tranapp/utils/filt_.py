@@ -15,6 +15,16 @@ class BookByTypeFilter(BaseFilterBackend):
 from tranapp import models
 
 
+class BookExcludeSelfFilter(BaseFilterBackend):
+    """过滤当前用户自己发布的书籍"""
+
+    def filter_queryset(self, request, queryset, view):
+        userinfo = request.user
+        return queryset.exclude(userinfo=userinfo)
+
+
+
+
 class BookByCampusFilter(BaseFilterBackend):
     """按照校区过滤"""
 
