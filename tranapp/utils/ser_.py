@@ -49,7 +49,7 @@ class LoginSer(serializers.ModelSerializer):
 
     class Meta:
         model = models.UserInfo
-        fields = ["id","username", "password", "avatar", "nickname", "campus"]
+        fields = ["id", "username", "password", "avatar", "nickname", "campus"]
         depth = 1
 
     def validate(self, attrs):
@@ -82,6 +82,7 @@ class BookSer(serializers.ModelSerializer):
     """书籍序列化器"""
     type_id = serializers.IntegerField(write_only=True)
     active_dict = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = models.Book
         fields = "__all__"
@@ -92,6 +93,7 @@ class BookSer(serializers.ModelSerializer):
             obj.active,
             obj.get_active_display(),
         }
+
 
 class TypeSer(serializers.ModelSerializer):
     class Meta:
@@ -159,6 +161,32 @@ class CartSer(serializers.ModelSerializer):
     class Meta:
         model = models.Cart
         fields = "__all__"
+        depth = 1
+
+
+############################# 帖子 ####################################
+
+class ArticlSer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Article
+        fields = "__all__"
+        depth = 1
+
+
+class ArticlCommentSer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ArticleComment
+        fields = "__all__"
+        depth = 1
+
+
+class ArticlCommentSer2(serializers.ModelSerializer):
+    article_id = serializers.IntegerField()
+    sender_id = serializers.IntegerField()
+
+    class Meta:
+        model = models.ArticleComment
+        fields = ["article_id", "sender_id", "content"]
         depth = 1
 
 

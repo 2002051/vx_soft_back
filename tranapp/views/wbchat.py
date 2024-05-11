@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.shortcuts import render
 from channels.generic.websocket import WebsocketConsumer
 from channels.exceptions import StopConsumer
+from rest_framework.exceptions import APIException
+
 from tranapp import models
 
 from rest_framework.views import APIView
@@ -94,6 +96,7 @@ class SessionView(MyResponse, APIView):
       接口类似于这种格式  api/session/?buyer=1&seller=2
     """
     authentication_classes = [LoginAuth]
+
     def get(self, request):
         try:
             buyer_id = int(request.query_params.get("buyer"))
@@ -103,3 +106,19 @@ class SessionView(MyResponse, APIView):
             return Response(ser.data)
         except:
             return Response("请求错误，请联系开发者ytw")
+
+
+class SessionListView(MyResponse, APIView):
+    """
+        获取当前用户所有session
+    """
+    authentication_classes = [LoginAuth]
+
+    def get(self, request):
+        try:
+            user = request.user
+            queryset = models.Session.objects.filter(Q(sellerid_id=user.id) | Q(buyerid_id=user.id)).all()
+            session = SessionSer(instance=queryset, many=True)
+            return Response(session.data)
+        except:
+            raise APIException("获取数据出错。")

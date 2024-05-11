@@ -18,7 +18,6 @@ class FileUploadException(APIException):
 class AvatarUpload(MyResponse, APIView):
     authentication_classes = [LoginAuth]
     """上传头像"""
-
     def post(self, request, format=None):
         userinfo = request.user
         file_obj = request.FILES.get('file')

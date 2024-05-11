@@ -2,6 +2,14 @@ from django.db import models
 import random
 
 
+class News(models.Model):
+    """咨询模型"""
+    title = models.CharField(verbose_name="咨询", max_length=32)
+    create_time = models.DateTimeField(verbose_name="发布时间", auto_now_add=True)
+    image = models.ImageField(verbose_name="封面", upload_to="news/")
+    content = models.TextField(verbose_name="详情")
+
+
 # Create your models here.
 
 class Banner(models.Model):
@@ -95,7 +103,7 @@ class Book(models.Model):
     status = models.CharField(verbose_name="使用情况", max_length=128)
     userinfo = models.ForeignKey(verbose_name="发布者", to="UserInfo", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="发送时间", auto_now_add=True)
-    active = models.IntegerField(verbose_name="状态",choices=((1,"未出售"),(2,"已出售")),default=1)
+    active = models.IntegerField(verbose_name="状态", choices=((1, "未出售"), (2, "已出售")), default=1)
 
     class Meta:
         verbose_name = '二手书'  # 设置模型在Admin中单数显示的名称
@@ -158,9 +166,21 @@ class Address(models.Model):
     def __str__(self):
         return "收件人：" + self.receiver_name + "..."
 
-# class Article(models.Model):
-#     """帖子"""
-#     pass
+
+class Article(models.Model):
+    """帖子"""
+    author = models.ForeignKey(verbose_name="作者", to="UserInfo", on_delete=models.CASCADE)
+    title = models.CharField(verbose_name="标题", max_length=255)
+    content = models.TextField(verbose_name="正文内容")
+    create_time = models.DateTimeField(verbose_name="发布时间", auto_now_add=True)
+
+
+class ArticleComment(models.Model):
+    """帖子的评论"""
+    article = models.ForeignKey(verbose_name="帖子", to="Article", on_delete=models.CASCADE)
+    sender = models.ForeignKey(verbose_name="评论者", to="UserInfo", on_delete=models.CASCADE)
+    content = models.TextField(verbose_name="评论内容")
+    create_time = models.DateTimeField(verbose_name="发布时间", auto_now_add=True)
 
 # class Followers(models.Model):
 #     """用户关注关系表"""

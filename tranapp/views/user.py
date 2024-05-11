@@ -16,7 +16,6 @@ class RegisterView(MyResponse, APIView):
         ser.save()
         return Response(ser.data)
 
-
 class EditView(MyResponse, APIView):
     authentication_classes = [LoginAuth]
     """编辑用户信息"""
@@ -29,7 +28,6 @@ class EditView(MyResponse, APIView):
         ser.save()
         return Response(ser.data)
 
-
 class LoginView(MyResponse, APIView):
     """登录视图"""
 
@@ -41,13 +39,11 @@ class LoginView(MyResponse, APIView):
         ser2 = LoginSer(instance=instance)
         return Response({"user": ser2.data, "token": token})
 
-
 class CampusView(MyResponse, APIView):
     def get(self, request):
         queryset = models.Campus.objects.all()
         ser = CampusSer(instance=queryset, many=True)
         return Response(ser.data)
-
 
 class UserCampusChangeView(MyResponse, APIView):
     """修改校区
