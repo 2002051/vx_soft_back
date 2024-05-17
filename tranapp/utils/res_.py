@@ -1,3 +1,4 @@
+
 from rest_framework.response import Response
 class MyResponse:
     def finalize_response(self, request, response, *args, **kwargs):

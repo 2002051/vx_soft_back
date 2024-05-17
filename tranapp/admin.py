@@ -1,5 +1,5 @@
 from django.contrib import admin
-from tranapp.models import UserInfo, Session, Message, Campus, Type, Book, Cart, Order, Address, Banner
+from tranapp.models import UserInfo, Session, Message, Campus, Type, Book, Cart, Order, Address, Banner,Article
 from django.contrib import admin
 
 
@@ -50,3 +50,4 @@ admin.site.register(Cart)
 admin.site.register(Order)
 admin.site.register(Address)
 # admin.site.register(Banner)
+admin.site.register(Article)

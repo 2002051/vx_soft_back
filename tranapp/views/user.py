@@ -16,6 +16,7 @@ class RegisterView(MyResponse, APIView):
         ser.save()
         return Response(ser.data)
 
+
 class EditView(MyResponse, APIView):
     authentication_classes = [LoginAuth]
     """编辑用户信息"""

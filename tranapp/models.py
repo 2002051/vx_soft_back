@@ -34,8 +34,8 @@ class UserInfo(models.Model):
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
     class Meta:
-        verbose_name = '用户'
-        verbose_name_plural = '用户'
+        verbose_name = '小程序端用户'
+        verbose_name_plural = '小程序端用户'
 
     def __str__(self):
         return self.nickname
@@ -173,6 +173,10 @@ class Article(models.Model):
     title = models.CharField(verbose_name="标题", max_length=255)
     content = models.TextField(verbose_name="正文内容")
     create_time = models.DateTimeField(verbose_name="发布时间", auto_now_add=True)
+
+    class Meta:
+        verbose_name = '帖子'
+        verbose_name_plural = '帖子'
 
 
 class ArticleComment(models.Model):

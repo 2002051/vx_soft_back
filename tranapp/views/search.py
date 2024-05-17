@@ -19,8 +19,11 @@ class BookSearchVie(MyResponse, APIView):
     def get(self, request):
         wd = request.query_params.get("wd")
         user = request.user
+        from django.db.models import Q
+        not_equal_condition = ~Q(userinfo__id=user.id)
+
         if wd:
-            queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id, name__icontains=wd)
+            queryset = models.Book.objects.filter(not_equal_condition,userinfo__campus_id=user.campus.id, name__icontains=wd)
         else:
             queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id)
         ser = BookSer(instance=queryset, many=True)
