@@ -6,10 +6,9 @@ class BookByTypeFilter(BaseFilterBackend):
     """ 图书按照分类,如果没有type，则跳过"""
 
     def filter_queryset(self, request, queryset, view):
-
         type_id = request.query_params.get('type', "")
-        print(type_id)
-        if type_id == "":
+        # print(type_id,type(type_id))
+        if type_id == "" or type_id == "0":
             return queryset
         return queryset.filter(type_id=type_id)
 
@@ -23,8 +22,6 @@ class BookExcludeSelfFilter(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         userinfo = request.user
         return queryset.exclude(userinfo=userinfo)
-
-
 
 
 class BookByCampusFilter(BaseFilterBackend):
