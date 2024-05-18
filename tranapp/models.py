@@ -96,7 +96,8 @@ class Book(models.Model):
     """二手书"""
     type = models.ForeignKey(verbose_name="类别", to="Type", on_delete=models.CASCADE)
     name = models.CharField(verbose_name="书名", max_length=128)
-    price = models.IntegerField(verbose_name="价格", default=1)
+    # price = models.IntegerField(verbose_name="价格", default=1)
+    price = models.FloatField(verbose_name="价格", default=10.00)
     author = models.CharField(verbose_name="作者", max_length=128)
     image = models.CharField(verbose_name="图片", max_length=128, default="/media/book_img/default.png")
     detail = models.CharField(verbose_name="详情", max_length=255)

@@ -7,11 +7,15 @@ class BookByTypeFilter(BaseFilterBackend):
 
     def filter_queryset(self, request, queryset, view):
         type_id = request.query_params.get('type', "")
-        obj = models.Type.objects.filter(id=int(type_id)).first()
+        try:
+            obj = models.Type.objects.filter(id=int(type_id)).first()
+            if type_id == "" or obj.title == "全部":
+                return queryset
+            return queryset.filter(type_id=type_id)
+        except:
         # print(type_id,type(type_id))
-        if type_id == "" or obj.title == "全部":
-            return queryset
-        return queryset.filter(type_id=type_id)
+
+            return queryset.filter(type_id=type_id)
 
 
 from tranapp import models

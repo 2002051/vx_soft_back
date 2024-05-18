@@ -36,7 +36,8 @@ class BookView(MyResponse, ModelViewSet):
     serializer_class = BookSer
     queryset = models.Book.objects.filter(active=1).all()
     pagination_class = LimitOffsetPagination
-    filter_backends = [BookByTypeFilter, BookByCampusFilter,BookExcludeSelfFilter]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
+    # filter_backends = [BookByTypeFilter, BookByCampusFilter,BookExcludeSelfFilter]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
+    filter_backends = [BookByTypeFilter,BookExcludeSelfFilter]  # 如果请求参数中query携带了type 那么就会根据type进行过滤，否则啥也不做
 
     def perform_create(self, serializer):
         userinfo = self.request.user
