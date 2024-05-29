@@ -15,7 +15,7 @@ class BookByTypeFilter(BaseFilterBackend):
         except:
         # print(type_id,type(type_id))
 
-            return queryset.filter(type_id=type_id)
+            return queryset.filter()
 
 
 from tranapp import models

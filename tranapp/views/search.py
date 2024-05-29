@@ -23,8 +23,8 @@ class BookSearchVie(MyResponse, APIView):
         not_equal_condition = ~Q(userinfo__id=user.id)
 
         if wd:
-            queryset = models.Book.objects.filter(not_equal_condition,userinfo__campus_id=user.campus.id, name__icontains=wd)
+            queryset = models.Book.objects.filter(not_equal_condition,userinfo__campus_id=user.campus.id, name__icontains=wd).filter(active=1)
         else:
-            queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id)
+            queryset = models.Book.objects.filter(userinfo__campus_id=user.campus.id).filter(active=1)
         ser = BookSer(instance=queryset, many=True)
         return Response(ser.data)
